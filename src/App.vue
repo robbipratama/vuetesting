@@ -1,28 +1,67 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <navbar/>
+    <b-container fluid>
+      <app-logo/>
+      <categories/>
+      <meals/>
+      <Area/>
+      <refs/>
+      <Footer/>
+    </b-container>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import AppLogo from './components/AppLogo.vue'
+import Navbar from './components/Navbar.vue'
+import Area from './components/Area.vue'
+import Categories from './components/Category.vue'
+import Meals from './components/Meals.vue'
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
+    AppLogo,
+    Navbar,
+    Area,
+    Categories,
+    Meals
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.container-fluid {
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+
+.title {
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
+  display: block;
+  font-weight: 300;
+  font-size: 100px;
+  color: #35495e;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-weight: 300;
+  font-size: 42px;
+  color: #526488;
+  word-spacing: 5px;
+  padding-bottom: 30px;
+}
+
+.links {
+  padding-top: 15px;
+}
+
+.footer {
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
+  margin-top: 100px;
+  margin-bottom: 50px;
+  color: #526488;
 }
 </style>
