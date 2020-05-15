@@ -1,42 +1,52 @@
 <template>
-<b-row class="rowdata">
-    <b-col class="col-md-12 col-title">
-        <h1 class="area-title">The Meals Country</h1>
-    </b-col>
-    <b-col class="col-md-1" v-for="(data, index) in dataarea" :key="index">
-        <p>{{ data.strArea }}</p>
-    </b-col>
-</b-row>
+  <div class="container">
+      <!-- <h1>This is a search page</h1> -->
+    <div class="row">
+        <div class="col-md-3" v-for="result in results" :key="result.strArea" style="text-align: center;">
+          <router-link :to="{ name: 'FilterArea', params: { name: result.strArea } }">
+            <div class="card" style="width: 15rem; height: 90%;">
+              <div class="card-body">
+                <h5 class="card-title">{{result.strArea}}</h5>
+              </div>
+            </div>
+          </router-link>
+        </div>
+    </div>
+  </div>
 </template>
+
 <script>
 import axios from 'axios'
 export default {
+  name: 'Foods',
   data () {
     return {
-      dataarea: []
+      results: []
     }
   },
-  async created () {
-    const BASEURI = 'https://www.themealdb.com/api/json/v1/1/list.php?a=list'
-    axios.get(BASEURI).then((result) => {
-      this.dataarea = result.data.meals
+  mounted () {
+    axios.get('https://www.themealdb.com/api/json/v1/1/list.php?a=list').then(response => {
+      console.log(response.data.meals)
+      this.results = response.data.meals
     })
   }
 }
 </script>
-<style>
-.rowdata {
-    margin: 50px;
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+h3 {
+  margin: 40px 0 0;
 }
-.col-title {
-    margin-bottom: 30px;
+ul {
+  list-style-type: none;
+  padding: 0;
 }
-.area-title {
-    font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
-    display: block;
-    font-weight: 400;
-    font-size: 50px;
-    color: #35495e;
-    letter-spacing: 1px;
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
 }
 </style>

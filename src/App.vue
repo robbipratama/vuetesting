@@ -1,67 +1,104 @@
 <template>
-  <div>
-    <navbar/>
-    <b-container fluid>
-      <app-logo/>
-      <categories/>
-      <meals/>
-      <Area/>
-      <refs/>
-      <Footer/>
-    </b-container>
+  <div id="app">
+    <b-navbar toggleable="lg" type="dark">
+      <b-navbar-brand href="#">UAS VUE</b-navbar-brand>
+
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <li class="nav-item">
+              <router-link to="/" class="nav-link">About</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/search" class="nav-link">Search</router-link>
+            </li>
+              <li class="nav-item">
+              <router-link to="/favorit" class="nav-link">Favorit</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/kategori" class="nav-link">Kategori</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/ingredient" class="nav-link">Ingredient</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/area" class="nav-link">Area</router-link>
+            </li>
+        </b-navbar-nav>
+
+        <b-navbar-nav class="ml-auto" v-if="user.loggedIn == true">
+          <b-nav-item>{{user.data.displayName}}</b-nav-item>
+          <b-button class="btnn" pill variant="danger" @click.prevent="signOut">Sign out</b-button>
+        </b-navbar-nav>
+
+        <b-navbar-nav class="ml-auto" v-else>
+            <b-button class="btnn" pill variant="success" to="/login">Sign in</b-button>
+        </b-navbar-nav>
+
+      </b-collapse>
+    </b-navbar>
+    <router-view></router-view>
+    <Footer />
   </div>
 </template>
 
 <script>
-import AppLogo from './components/AppLogo.vue'
-import Navbar from './components/Navbar.vue'
-import Area from './components/Area.vue'
-import Categories from './components/Category.vue'
-import Meals from './components/Meals.vue'
-
+import { mapGetters } from 'vuex'
+import firebase from 'firebase'
+import Footer from './components/Footer.vue'
 export default {
+  name: 'Home',
   components: {
-    AppLogo,
-    Navbar,
-    Area,
-    Categories,
-    Meals
+    Footer
+  },
+  computed: {
+    ...mapGetters({
+      // map `this.user` to `this.$store.getters.user`
+      user: 'user'
+    })
+  },
+  methods: {
+    signOut () {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace({
+            name: 'Login'
+          })
+        })
+    }
   }
 }
 </script>
 
 <style>
-.container-fluid {
-  justify-content: center;
-  align-items: center;
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  color: #507396;
 }
-
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+.navbar {
+  background-color: black;
 }
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 30px;
+.navbar-brand {
+    color: white;
 }
-
-.links {
-  padding-top: 15px;
+#nav {
+  padding: 30px;
 }
-
-.footer {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
-  margin-top: 100px;
-  margin-bottom: 50px;
-  color: #526488;
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+#nav a.router-link-exact-active {
+  color: rgb(86, 175, 171);
+}
+.row-navbar {
+    width: 100%;
+    background-color: rgb(86, 175, 171);
 }
 </style>
